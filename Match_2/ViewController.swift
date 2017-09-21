@@ -31,9 +31,12 @@ class ViewController: UIViewController {
     var arrayOfShowingBacks = [UIView]()
     var arrayOfHidingFronts = [UIView]()
     
+    var cards: [UIView]!
+    
     //-------------------
     override func viewDidLoad() {
         super.viewDidLoad()
+        cards = [card_1, card_2, card_3, card_4]
         arrayOfImageViews = [imgView1, imgView2, imgView3, imgView4]
         randomAnimals()
         setImagesToCards()
@@ -127,7 +130,7 @@ class ViewController: UIViewController {
         resetCards()
     }
     //-------------------
-    func hideCards() {
+    @objc func hideCards() {
         arrayOfCards[0].isHidden = true
         arrayOfCards[1].isHidden = true
         arrayOfCards = []
@@ -139,6 +142,16 @@ class ViewController: UIViewController {
         }
         arrayOfShowingBacks = []
         arrayOfHidingFronts = []
+    }
+    //-------------------
+    @IBAction func reset(_ sender: UIButton) {
+        for card in cards {
+            card.isHidden =  false
+        }
+        arrayOfAnimalNames = ["panda.png", "panda.png", "penguin.png", "penguin.png"]
+        arrayOfRandomAnimalNames = []
+        randomAnimals()
+        setImagesToCards()
     }
     //-------------------
 }
