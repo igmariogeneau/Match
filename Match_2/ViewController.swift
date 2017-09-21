@@ -28,6 +28,9 @@ class ViewController: UIViewController {
     var arrayChosenCards = [String]()
     var arrayOfCards = [UIView]()
     
+    var arrayOfShowingBacks = [UIView]()
+    var arrayOfHidingFronts = [UIView]()
+    
     //-------------------
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,19 +40,31 @@ class ViewController: UIViewController {
     }
     //-------------------
     @IBAction func showCard(_ sender: UIButton) {
+        if arrayOfHidingFronts.count == 2 {
+            return
+        }
+        
         switch sender.tag {
         	case 0:
                 flipCard(from: front_1, to: back_1)
                 arrayOfCards.append(card_1)
+                arrayOfShowingBacks.append(back_1)
+            	arrayOfHidingFronts.append(front_1)
         	case 1:
             	flipCard(from: front_2, to: back_2)
                 arrayOfCards.append(card_2)
+                arrayOfShowingBacks.append(back_2)
+                arrayOfHidingFronts.append(front_2)
         	case 2:
             	flipCard(from: front_3, to: back_3)
                 arrayOfCards.append(card_3)
+                arrayOfShowingBacks.append(back_3)
+                arrayOfHidingFronts.append(front_3)
         	case 3:
             	flipCard(from: front_4, to: back_4)
                 arrayOfCards.append(card_4)
+                arrayOfShowingBacks.append(back_4)
+                arrayOfHidingFronts.append(front_4)
         	default:
             	break
         }
@@ -86,6 +101,16 @@ class ViewController: UIViewController {
         }
     }
     //-------------------
+    func resetCards() {
+        if arrayOfShowingBacks.count == 2 {
+            Timer.scheduledTimer(timeInterval: 2,
+                                 target: self,
+                                 selector: (#selector(reFlip)),
+                                 userInfo: nil,
+                                 repeats: false)
+        }
+    }
+    //-------------------
     func verification() {
         if arrayChosenCards.count == 2 {
             if arrayChosenCards[0] == arrayChosenCards[1] {
@@ -99,12 +124,21 @@ class ViewController: UIViewController {
             }
             arrayChosenCards = []
         }
+        resetCards()
     }
     //-------------------
     func hideCards() {
         arrayOfCards[0].isHidden = true
         arrayOfCards[1].isHidden = true
         arrayOfCards = []
+    }
+    //-------------------
+    func reFlip() {
+        for index in 0..<arrayOfShowingBacks.count {
+            flipCard(from: arrayOfShowingBacks[index], to: arrayOfHidingFronts[index])
+        }
+        arrayOfShowingBacks = []
+        arrayOfHidingFronts = []
     }
     //-------------------
 }
